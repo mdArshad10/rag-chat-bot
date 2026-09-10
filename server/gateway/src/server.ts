@@ -12,6 +12,7 @@ import { createServer } from 'node:http';
 import { handleExpressError } from './exceptions/handleExpress';
 import { apiV1 } from './routes/apiV1';
 import { env } from './utils/env';
+import { createScalarMiddleware } from './middlewares/create-scalar-middleware';
 
 export const expressServer = (app: Express, router:Router) => {
 	const server = createServer(app);
@@ -27,6 +28,9 @@ export const expressServer = (app: Express, router:Router) => {
 	app.use(express.json({ limit: '10mb' }));
 	app.use(express.urlencoded({ limit: '10mb', extended: true }));
 	app.use('/asset', express.static(path.join(process.cwd(), 'public')));
+	app.use(
+  		'/reference',
+  		createScalarMiddleware())
 
 	app.get('/health', (_req: Request, res: Response, _next: NextFunction) => {
 		const health = {

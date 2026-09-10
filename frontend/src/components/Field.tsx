@@ -1,19 +1,24 @@
+import type { ReactNode } from "react"
+import { Field as ShadcnField, FieldLabel } from "@/components/ui/field"
+
 export function Field({
   label,
   hint,
+  invalid = false,
   children,
 }: {
   label: string
   hint?: string
-  children: React.ReactNode
+  invalid?: boolean
+  children: ReactNode
 }) {
   return (
-    <label className="field">
-      <span className="field-label">
+    <ShadcnField className="field" data-invalid={invalid || undefined}>
+      <FieldLabel className="field-label">
         {label}
         {hint && <small>{hint}</small>}
-      </span>
+      </FieldLabel>
       {children}
-    </label>
+    </ShadcnField>
   )
 }
