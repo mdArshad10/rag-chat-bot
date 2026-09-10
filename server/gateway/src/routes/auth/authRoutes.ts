@@ -1,11 +1,12 @@
 import type { Router } from "express";
-import { loginUser, registerUser, verifiedEmailUser } from "../../grpc/gRPCAuthClient";
+import { AuthService } from "../../services/auth.service";
 
 
 export function authRoutes(router:Router) {
-    router.route('/register').post(registerUser);
-    router.route('/verify-email').post(verifiedEmailUser);
-    router.route("/login").post(loginUser)
+    const authService = new AuthService();
+    router.route('/register').post(authService.registerUser);
+    router.route('/verify-email').post(authService.verifiedEmailUser);
+    router.route("/login").post(authService.loginUser)
 
     return router;
 }
