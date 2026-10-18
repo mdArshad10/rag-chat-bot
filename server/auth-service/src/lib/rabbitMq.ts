@@ -47,6 +47,10 @@ export class RabbitMq {
 				console.info('Connected to RabbitMQ');
 				return connection;
 			})
+			.catch((err:unknown)=>{
+				const error= err instanceof Error ? err : {message:"internal server error durring connection of rabbitMq"};
+				throw new Error(error.message)
+			})
 			.finally(() => {
 				this.connectionPromise = null;
 			});

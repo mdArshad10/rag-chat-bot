@@ -7,13 +7,15 @@ const envSchema = z.object({
 	PORT: z.coerce.number().int().min(1).max(65_535).default(3000),
 	GRPC_PORT: z.coerce.number().int().min(1).max(65_535).default(50050),
 	AUTH_SERVICE_GRPC_PORT: z.coerce.number().int().min(1).max(65_535).default(50053),
-	TASK_SERVICE_GRPC_PORT: z.coerce.number().int().min(1).max(65_535).default(50052),
+	TASK_SERVICE_GRPC_PORT: z.coerce.number().int().min(1).max(65_535).default(50051),
+	NOTIFICATION_SERVICE_GRPC_PORT: z.coerce.number().int().min(1).max(65_535).default(50052),
 	JWT_ACCESS_SECRET:z.string(),
 	FRONTEND_APP_URL: z.preprocess(
 		(value) => (value === '' ? undefined : value),
 		z.string().url().optional(),
 	),
 });
+
 
 export type Env = z.infer<typeof envSchema>;
 

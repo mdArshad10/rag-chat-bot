@@ -6,7 +6,8 @@ import { HmacTokenService, parseDuration } from './security/token';
 import { createAuthenticate } from './utils/authenticate';
 import { UserRouter } from './router/user.router';
 import rabbitMq from './lib/rabbitMq';
-import { AuthgRPCServices } from './grpc/gRPCServer';
+import { AuthgRPCServices } from './service/auth-grpc.service';
+
 
 export class UserDependencies {
 	readonly router: UserRouter['router'];

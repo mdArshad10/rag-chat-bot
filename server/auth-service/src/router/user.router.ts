@@ -23,21 +23,21 @@ export class UserRouter {
 		private readonly controller: UserController,
 		private readonly authenticate: RequestHandler,
 	) {
-		this.router.post('/register', validate(registerSchema), asyncHandler(controller.register));
-		this.router.post('/login', validate(loginSchema), asyncHandler(controller.login));
-		this.router.post('/verify-email', validate(verifyEmailSchema), asyncHandler(controller.verifyEmail));
-		this.router.post('/resend-verification', validate(resendVerificationSchema), asyncHandler(controller.resendVerification));
-		this.router.post('/refresh-token', validate(refreshTokenSchema), asyncHandler(controller.refreshToken));
-		this.router.post('/logout', authenticate, asyncHandler(controller.logout));
-		this.router.post('/forgot-password', validate(forgotPasswordSchema), asyncHandler(controller.forgotPassword));
-		this.router.post('/reset-password', validate(resetPasswordSchema), asyncHandler(controller.resetPassword));
-		this.router.get('/me', authenticate, asyncHandler(controller.me));
-		this.router.patch('/me', authenticate, validate(updateProfileSchema), asyncHandler(controller.updateMe));
-		this.router.patch('/change-password', authenticate, validate(changePasswordSchema), asyncHandler(controller.changePassword));
+		this.router.post('/register', validate(registerSchema), asyncHandler(this.controller.register));
+		this.router.post('/login', validate(loginSchema), asyncHandler(this.controller.login));
+		this.router.post('/verify-email', validate(verifyEmailSchema), asyncHandler(this.controller.verifyEmail));
+		this.router.post('/resend-verification', validate(resendVerificationSchema), asyncHandler(this.controller.resendVerification));
+		this.router.post('/refresh-token', validate(refreshTokenSchema), asyncHandler(this.controller.refreshToken));
+		this.router.post('/logout', this.authenticate, asyncHandler(this.controller.logout));
+		this.router.post('/forgot-password', validate(forgotPasswordSchema), asyncHandler(this.controller.forgotPassword));
+		this.router.post('/reset-password', validate(resetPasswordSchema), asyncHandler(this.controller.resetPassword));
+		this.router.get('/me', this.authenticate, asyncHandler(this.controller.me));
+		this.router.patch('/me', this.authenticate, validate(updateProfileSchema), asyncHandler(this.controller.updateMe));
+		this.router.patch('/change-password', this.authenticate, validate(changePasswordSchema), asyncHandler(this.controller.changePassword));
 
-		this.router.get('/', authenticate, validate(userListQuerySchema, 'query'), asyncHandler(controller.list));
-		this.router.get('/:id', authenticate, validate(userIdSchema, 'params'), asyncHandler(controller.getById));
-		this.router.patch('/:id', authenticate, validate(userIdSchema, 'params'), validate(updateProfileSchema), asyncHandler(controller.update));
-		this.router.delete('/:id', authenticate, validate(userIdSchema, 'params'), asyncHandler(controller.delete));
+		this.router.get('/', this.authenticate, validate(userListQuerySchema, 'query'), asyncHandler(this.controller.list));
+		this.router.get('/:id', this.authenticate, validate(userIdSchema, 'params'), asyncHandler(this.controller.getById));
+		this.router.patch('/:id', this.authenticate, validate(userIdSchema, 'params'), validate(updateProfileSchema), asyncHandler(this.controller.update));
+		this.router.delete('/:id', this.authenticate, validate(userIdSchema, 'params'), asyncHandler(this.controller.delete));
 	}
 }

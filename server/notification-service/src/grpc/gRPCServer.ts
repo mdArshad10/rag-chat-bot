@@ -4,8 +4,14 @@ import * as protoLoader from '@grpc/proto-loader'
 import crypto from 'crypto'
 import path from 'path'
 import { env } from '../utils/env';
+import { existsSync } from 'fs';
 
-export const PROTO_PATH = path.join('/app','proto','task.proto');
+const protoCandidates = [
+    path.resolve(import.meta.dir, '..', '..', '..', 'proto', 'auth.proto'),
+    path.resolve(import.meta.dir, '..', '..', 'proto', 'auth.proto'),
+];
+
+export const PROTO_PATH = protoCandidates.find((candidate) => existsSync(candidate)) ?? protoCandidates[0]!;
 
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
     keepCase: true,

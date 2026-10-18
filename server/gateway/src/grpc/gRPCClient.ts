@@ -3,17 +3,17 @@ import * as protoLoader from '@grpc/proto-loader'
 import path from 'path'
 import { env } from '../utils/env';
 
-export const PROTO_DIR = path.join('/app','proto');
+export const PROTO_DIR = path.resolve(import.meta.dir, '..', '..', '..', 'proto');
+console.log(PROTO_DIR)
 
 const packageDefinition = protoLoader.loadSync([
     path.join(PROTO_DIR,'task.proto'),
     path.join(PROTO_DIR,'chat.proto'),
     path.join(PROTO_DIR,'agent.proto'),
     path.join(PROTO_DIR,'auth.proto'),
-
     path.join(PROTO_DIR,'chatHistory.proto'),
     path.join(PROTO_DIR,'customer.proto'),
-    path.join(PROTO_DIR,'knowledgebase.proto'),
+    path.join(PROTO_DIR,'knowledgebase.proto')
 ], {
     keepCase: true,
     longs:String,

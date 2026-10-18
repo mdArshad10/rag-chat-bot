@@ -1,11 +1,11 @@
 import 'dotenv/config';
 import express from 'express'
 import { expressServer } from './server';
+import { env } from './utils/env';
 
 const app = express();
-const port = Number(process.env.PORT ?? 5052)
 
-expressServer(app,port)
+expressServer(app,env.PORT)
 
 interface Empty{}
 

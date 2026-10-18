@@ -62,12 +62,10 @@ export class GrpcClient {
 }
 
 export const resolveProtoDirectory = (): string => {
-	const candidates = [
-		process.env.PROTO_DIR,
-		path.resolve(process.cwd(), 'proto'),
-		path.resolve(process.cwd(), '..', 'proto'),
-		'/app/proto',
-	].filter((candidate): candidate is string => Boolean(candidate));
+	const protoCandidates = [
+    path.resolve(import.meta.dir, '..', '..', '..', 'proto'),
+    path.resolve(import.meta.dir, '..', '..', 'proto'),
+];
 
-	return candidates.find((candidate) => existsSync(candidate)) ?? candidates[0] ?? '/app/proto';
+	return protoCandidates.find((candidate) => existsSync(candidate)) ?? protoCandidates[0]!;
 };

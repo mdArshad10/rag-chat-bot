@@ -29,7 +29,7 @@ export const expressServer = (app: Express, PORT: number) => {
 			status: 'ok',
 			service: 'notification-service',
 			environment: process.env.NODE_ENV,
-			port: process.env.PORT,
+			port: PORT,
 			timestamp: new Date().toISOString(),
 			uptime: process.uptime(),
 			memory: process.memoryUsage(),

@@ -15,23 +15,29 @@ export class Database {
 	}
 
 	async openConnection(uri = env.MONGODB_URI): Promise<Mongoose> {
-		if (this.connection && [1, 2].includes(this.connection.connection.readyState)) {
-			return this.connection;
+		try {
+			if (this.connection && [1, 2].includes(this.connection.connection.readyState)) {
+				return this.connection;
+			}
+			if (this.connectionPromise) return this.connectionPromise;
+	
+			this.connectionPromise = mongoose
+				.connect(uri, { serverSelectionTimeoutMS: 5_000 })
+				.then((connection) => {
+					this.connection = connection;
+					console.info('Connected to MongoDB');
+					return connection;
+				})
+				.finally(() => {
+					this.connectionPromise = null;
+				});
+	
+			return this.connectionPromise;
+		} catch (err:unknown) {
+			console.log(err)
+			const error = err instanceof Error ? err : {message:"internal server error in connecting database"}
+			throw new Error(error.message)
 		}
-		if (this.connectionPromise) return this.connectionPromise;
-
-		this.connectionPromise = mongoose
-			.connect(uri, { serverSelectionTimeoutMS: 5_000 })
-			.then((connection) => {
-				this.connection = connection;
-				console.info('Connected to MongoDB');
-				return connection;
-			})
-			.finally(() => {
-				this.connectionPromise = null;
-			});
-
-		return this.connectionPromise;
 	}
 
 	getConnection(): Mongoose | null {

@@ -1,11 +1,16 @@
-
 import * as grpc from '@grpc/grpc-js'
 import * as protoLoader from '@grpc/proto-loader'
+import { existsSync } from 'node:fs';
 import path from 'path'
 import { env } from '../utils/env';
 import type { AuthgRPCServices } from '../service/auth-grpc.service';
 
-export const PROTO_PATH = path.join('/app', 'proto', 'auth.proto');
+const protoCandidates = [
+    path.resolve(import.meta.dir, '..', '..', '..', 'proto', 'auth.proto'),
+    path.resolve(import.meta.dir, '..', '..', 'proto', 'auth.proto'),
+];
+
+export const PROTO_PATH = protoCandidates.find((candidate) => existsSync(candidate)) ?? protoCandidates[0]!;
 
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
     keepCase: true,

@@ -4,8 +4,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "bun run app.ts",
-    "dev": "bun --watch run app.ts"
+    "start": "bun run src/app.ts",
+    "dev": "bun --watch run src/app.ts",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@types/bun": "latest",
